@@ -80,7 +80,7 @@ function rotation(){
         dx = dy = 0;
         sizeCenter(spin,0.25,1);
     }
-    if(Math.abs(penis.v)>=100 && !modalOn){
+    if(Math.abs(penis.v)>=200 && !modalOn){
         spin.dispatchEvent(new Event("win",{bubbles: true}));
     }
     return toDeg(penis.phi);

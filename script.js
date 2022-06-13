@@ -2,8 +2,10 @@ let spin = document.querySelector(".spinContainer");
 let dx = 0;
 let dy = 0;
 let modalOn = false;
+let dickCatch = false;
 let docWidth = document.documentElement.clientWidth;
 let docHeight = document.documentElement.clientHeight;
+document.getElementById("dick").ondragstart = () => false;
 
 sizeCenter(spin,0.25,1);
 
@@ -26,7 +28,7 @@ function sizeCenter(elem,perFromLeft,widthToHeight) {
         elem.style.top = (docHeight-elemHeight)/2+dx+"px";
         elem.style.left = 0+dy+"px";
     }
-    console.log(elem.style.top+"eh "+elemWidth+"ew "+docHeight+"dh "+docWidth+"dw")
+    //console.log(elem.style.top+"eh "+elemWidth+"ew "+docHeight+"dh "+docWidth+"dw")
     elem.style.width = Math.abs(elemWidth)+"px";
     elem.style.height = Math.abs(elemHeight)+"px";
 }
@@ -59,13 +61,14 @@ function antiNum(x){
     }
     return x < 0 ? 1 : -1;
 }
-function rotation(){    
+function rotation(){
+    if(dickCatch) return penis.phi;   
     penis.a = -(g/L)*Math.sin(penis.phi)
 	penis.v +=  penis.a*dt+((y*Math.abs(penis.v*(180/Math.PI))*(antiNum(penis.v))))
 	penis.phi += penis.v*dt
     //penis.phi=e*Math.cos(w*t+initPhi)
     t += dt
-    document.getElementById("speed").innerHTML = "Speed: "+Math.abs(Math.round(penis.v));
+    document.getElementById("speed").innerHTML = "Speed: "+/*Math.abs*/(Math.round(penis.v));
     if(Math.abs(penis.v)>50){
         let rand = 1;
         let speed = Math.abs(Math.round(penis.v))
@@ -75,7 +78,7 @@ function rotation(){
         dx = Math.round(speed*Math.random()*rand*0.01**(1/(speed/50)));
         dy = Math.round(speed*Math.random()*rand*0.01**(1/(speed/50)));
         sizeCenter(spin,0.25,1)
-        console.log(dx+" "+dy)
+        //console.log(dx+" "+dy)
     }else {
         dx = dy = 0;
         sizeCenter(spin,0.25,1);
@@ -91,6 +94,14 @@ function toDeg(pi){
     if(pi<0) angle = -180*pi/Math.PI+180;
     if(Math.abs(angle)>360) angle = 360*(angle/360-Math.round(angle/360));
     return angle;    
+}
+
+function toRad(grad){
+    if(grad>180){
+        return (180-grad)*Math.PI/180;
+    }else{
+        return (180-grad)*Math.PI/180;
+    }
 }
 
 document.addEventListener("wheel", function(e){
@@ -181,4 +192,61 @@ function surpModal(){
         shadow2.remove();
         but3.remove();
     }
+}
+
+document.addEventListener("pointerdown", function(e){
+    if(e.target.id != "dick") return;
+    //console.log("catch")
+    penis.v = 0;
+    dickCatch = true;
+    let x = e.pageX;
+    let y = e.pageY;
+    let ballsPlace = document.getElementById("balls").getBoundingClientRect();
+    let centerY = ballsPlace.top+window.pageYOffset+ballsPlace.height/2;
+    let centerX = ballsPlace.left+window.pageXOffset+ballsPlace.width/2;
+    penis.phi = calcAngle(x,y,centerX,centerY);
+    let preLastAngle = penis.phi;
+    let lastAngle = penis.phi;
+    let countier = setInterval(()=>{
+        preLastAngle = lastAngle;
+        lastAngle = penis.phi;
+    },1000/60);
+    document.addEventListener("pointermove", move)
+    function move(e){
+        //console.log("move")
+        let mX = e.pageX;
+        let mY = e.pageY;
+        penis.phi = calcAngle(mX,mY,centerX,centerY);
+    }
+    function up(e){
+        document.removeEventListener("pointermove", move);
+        penis.initPhi = penis.phi = toRad(penis.phi);
+        penis.v = ((lastAngle-preLastAngle)*3.14/180)*antiNum(lastAngle-preLastAngle)/(1/60);
+        console.log(penis.v)
+        dickCatch = false;
+        document.removeEventListener("pointerup", up);
+    }
+    document.addEventListener("pointerup", up);
+    
+});
+
+function calcAngle(x,y,centerX,centerY){
+    let x0 = x-centerX;
+    let y0 = y-centerY;
+    let a = Math.atan(x0/y0)*180/3.14;
+    if(a>0){
+        if(y0<0){
+            a=360-a;
+        }else{
+            a=180-a;
+        }
+    }else{
+       if(y0<0){
+        a=Math.abs(a);
+       }else{
+        a=Math.abs(a)+180;
+       }
+    }
+    //console.log(a+" "+penis.phi);
+    return a;
 }

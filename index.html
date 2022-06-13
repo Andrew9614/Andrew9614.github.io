@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+    <title>DickSpin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="stop-scrolling">
+    <div class="modal">
+        <b1>Welcom</b1>
+        <p>This is the DickSpin game. You can spin dick by your mouse wheel.</p>
+        <p>To win you must reach 200 point of speed</p>
+        <input type="button" value="Let's celebrate and spin some dick" class="modal button" id="buttonStart">
+    </div>
+    <script>
+        let modal = document.querySelector(".modal");
+        modal.addEventListener("wheel",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        let shadow = document.createElement("div");
+        document.body.append(shadow);
+        shadow.className = "shadowDiV";
+        shadow.style.height = document.documentElement.clientHeight+"px";
+        shadow.style.width = document.documentElement.clientWidth+"px";
+        document.getElementById("buttonStart").onclick = function(){
+            modal.removeEventListener("wheel",function(e){
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            modal.remove();
+            shadow.remove();
+        }
+    </script>
+    <p id="speed"></p>
+    <div class="spinContainer">
+        <img src="balls.png" id="balls">
+        <img src="dick.png" id="dick">
+    </div>    
+    <script src="script.js"></script>
+</body>
+</html>

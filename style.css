@@ -1,0 +1,91 @@
+body{
+ background-color: rgb(255, 255, 255);   
+ margin: 0;
+ font-family: 'Lato', sans-serif;
+}
+#speed{
+    position: absolute;
+    margin: 4%;
+    font-size: 3em;
+    font-style: italic;
+    font-weight: bold;
+    color: rgb(243, 177, 190);
+}
+.container{
+    position: relative;
+}
+.spinContainer{
+    position: absolute;
+    overflow: hidden;
+}
+.spinContainer img{
+    position: absolute;
+    object-fit: scale-down;
+    display: inline-block;
+    margin: 0;
+    transform: translate(-50%, -50%);
+}
+#balls{
+    width: 45%;
+    z-index: 1;
+    top: 50%;
+    left: 50%;    
+}
+#dick{    
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 24%;
+    transform-origin: center bottom;
+}
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+.modal{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%; 
+    z-index: 3;
+    padding: 10px;
+    background-color: white;
+    border: 3px solid rgb(243, 177, 190);
+    border-radius: 20px;
+    text-align: center;    
+    font-size: 1.5em;
+}
+.modal b1{
+    font-size: 2em;
+    font-weight: bold;
+}
+.shadowDiV{
+    position: relative;
+    background: rgb(255, 223, 229);
+    z-index: 2;
+}
+.button{
+    position: static;
+    transform: unset;
+    font-size: 1em;
+    font-style: italic;
+    transition: 0.1s;
+
+}
+.button:hover{
+    background-color: rgb(255, 247, 248); 
+    cursor: pointer;
+}
+.surpriseButton{
+    position: absolute;
+    background: white;
+    border:rgb(243, 177, 190) solid 3px;
+    border-radius: 100%;
+    padding: 10px;
+    text-align: center;
+    transition: 0.1s;
+}
+.surpriseButton:hover{
+    background-color: rgb(255, 247, 248);
+    cursor: pointer;
+}
